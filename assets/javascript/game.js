@@ -1,7 +1,5 @@
-var Character = (function (){
-    var i = -1;
-    return function Character(name, attack, AttackPower, CounterAttack, hp, img){
-        this.id = ++i;
+var Character = function (id, name, attack, AttackPower, CounterAttack, hp, img){
+        this.id = id;
         this.name = name;
         this.attack = attack;
         this.AttackPower = AttackPower;
@@ -27,8 +25,7 @@ var Character = (function (){
 
             return containerDiv;
         }
-}
-})();
+};
 
 var state = "selectPlayer";
 var playerIndex;
@@ -37,10 +34,6 @@ var Player, Defender;
 var charArray = [];
 var enemyLeft = 0;
 
-var ObiWan = new Character("Obi-Wan Kenobi", 10, 10, 10, 100, "assets/images/placeholder.jpg");
-var Luke = new Character("Luke Skywalker", 10, 10, 10, 10, "assets/images/placeholder.jpg");
-var Sidious = new Character("Darth Sidious", 10, 10, 10, 10, "assets/images/placeholder.jpg");
-var Maul = new Character("Darth Maul", 10, 10, 10, 10, "assets/images/placeholder.jpg");
 
 function update(selection){
 
@@ -83,6 +76,7 @@ function update(selection){
                 break;
             $("#message").empty();
             Defender.hp -= Player.attack;
+            $("#defender").html(Defender.draw());
             $("#message").append(`<p>You attacked ${Defender.name} for ${Player.attack} damage.`)
             Player.attack += Player.AttackPower;
             if(Defender.hp <= 0){
@@ -98,16 +92,15 @@ function update(selection){
             }
             else{
                 Player.hp -= Defender.CounterAttack;
+                $("#player").html(Player.draw());
                 $("#message").append(`<p>${Defender.name} attacked you back for ${Defender.CounterAttack} damage.`);
                 if(Player.hp <= 0){
                     $("#message").html("You have been defeated... GAME OVER!!");
                     $("#restart").show();
                     state = "restart";
                 }
-    
-                $("#player").html(Player.draw());
-                $("#defender").html(Defender.draw());
             }
+            
             break;
 
         case "restart":
@@ -129,12 +122,12 @@ function start(){
     $("#enemy").empty();
     $("#defender").empty();
     $("#message").empty();
-    //Clear our array of characters so that we can create a new array where the objects have initial values
+
     charArray = [];
-    charArray.push(Object.assign({}, ObiWan));
-    charArray.push(Object.assign({}, Luke));
-    charArray.push(Object.assign({}, Sidious));
-    charArray.push(Object.assign({}, Maul)); 
+    charArray.push(new Character(0, "Obi-Wan Kenobi", 8, 8, 10, 120, "assets/images/obi-wan.jpg"));
+    charArray.push(new Character(1, "Luke Skywalker", 12, 12, 5, 100, "assets/images/luke.jpg"));
+    charArray.push(new Character(2, "Darth Sidious", 6, 6, 20, 150, "assets/images/sidious.jpg"));
+    charArray.push(new Character(3, "Darth Maul", 3, 3, 25, 180, "assets/images/maul.jpg")); 
     //Draw our characters
     for(var i = 0; i < charArray.length; i++){
         $("#selection").append(charArray[i].draw());

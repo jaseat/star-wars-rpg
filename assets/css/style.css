@@ -1,7 +1,16 @@
+body{
+    background-color:#5C91BB;
+    background-image: url("../images/bg.jpg");
+    background-size : 100%;
+    background-repeat: no-repeat;
+    
+}
+
 .character{
     display: inline-block;
     border: 2px solid green;
     padding: 0 5px;
+    background-color: white;
 }
 
 .name, .health{
