@@ -27,9 +27,6 @@ var Character = (function (){
 
             return containerDiv;
         }
-        this.reset = () =>{
-            i = -1;
-        }
 }
 })();
 
